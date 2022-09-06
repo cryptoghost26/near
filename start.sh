@@ -52,17 +52,17 @@ echo  =================== Start build ===================
 sleep 5
 make neard
 cp /root/nearcore/target/release/neard /usr/bin/
-cd /root/
+cd /root/nearcore
 echo  =================== Завершена сборка ====================
 echo  =================== Build s completed ===================
-neard init --chain-id testnet --download-genesis
+./target/release/neard --home /root/.near init --chain-id testnet --download-genesis
 ls /root/ -a 
 ls /root/.near -a 
 ls / -a 
 echo  ======================= nearcore установлен =====================
 echo  =================== install nearcore complete ===================
 sleep 10
-cd .near
+cd /root/.near
 rm config.json
 wget -O /root/.near/config.json "https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/config.json"
 sleep 5
@@ -75,8 +75,6 @@ wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/t
 sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
-echo  =================== testnet snapshot download ===================
-
 echo все ОК
 sleep 20
 if  [[  -z $link_key  ]]
@@ -109,11 +107,12 @@ binary=neard
 mkdir /root/$binary
 mkdir /root/$binary/log
     
-cat > /root/$binary/run <<EOF 
-#!/bin/bash
-exec 2>&1
-exec $binary run
-EOF
+# cat > /root/$binary/run <<EOF 
+# #!/bin/bash
+# exec 2>&1
+# exec $binary run
+# EOF
+./target/release/neard --home /root/.near run
 
 chmod +x /root/$binary/run
 LOG=/var/log/$binary

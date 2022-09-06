@@ -44,7 +44,6 @@ sleep 20
 cd /root/
 git clone "https://github.com/near/nearcore"
 sleep 5
-commit=`curl -s https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md`
 cd nearcore
 git fetch
 git checkout 1.29.0-rc.1
@@ -56,7 +55,7 @@ cp /root/nearcore/target/release/neard /usr/bin/
 cd /root/
 echo  =================== Завершена сборка ====================
 echo  =================== Build s completed ===================
-neard init --chain-id shardnet --download-genesis
+neard init --chain-id testnet --download-genesis
 ls /root/ -a 
 ls /root/.near -a 
 ls / -a 
@@ -65,21 +64,18 @@ echo  =================== install nearcore complete ===================
 sleep 10
 cd .near
 rm config.json
-wget -O /root/.near/config.json "https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json"
+wget -O /root/.near/config.json "https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/config.json"
 sleep 5
 sudo apt-get install awscli -y
 pwd
 sleep 10
 cd /root/.near/
 rm /root/.near/genesis.json
-wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/genesis.json
+wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json
 sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
 echo  =================== testnet snapshot download ===================
-aws s3 --no-sign-request cp s3://near-protocol-public/backups/testnet/rpc/latest .
-LATEST=$(cat latest)
-aws s3 --no-sign-request cp --no-sign-request --recursive s3://near-protocol-public/backups/testnet/rpc/$LATEST ~/.near/data
 
 echo все ОК
 sleep 20

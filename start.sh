@@ -50,7 +50,7 @@ git checkout 1.29.0-rc.1
 echo  ================= Начинаю сборку ==================
 echo  =================== Start build ===================
 sleep 5
-make neard
+cargo build -p neard --release --features shardnet
 cp /root/nearcore/target/release/neard /usr/bin/
 cd /root/nearcore
 echo  =================== Завершена сборка ====================

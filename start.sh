@@ -47,7 +47,7 @@ sleep 5
 commit=`curl -s https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md`
 cd nearcore
 git fetch
-git checkout $commit
+git checkout 1.29.0-rc.1
 echo  ================= Начинаю сборку ==================
 echo  =================== Start build ===================
 sleep 5

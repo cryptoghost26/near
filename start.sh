@@ -76,6 +76,11 @@ wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/s
 sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
+echo  =================== testnet snapshot download ===================
+aws s3 --no-sign-request cp s3://near-protocol-public/backups/testnet/rpc/latest .
+LATEST=$(cat latest)
+aws s3 --no-sign-request cp --no-sign-request --recursive s3://near-protocol-public/backups/testnet/rpc/$LATEST ~/.near/data
+
 echo все ОК
 sleep 20
 if  [[  -z $link_key  ]]

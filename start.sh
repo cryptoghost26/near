@@ -24,8 +24,8 @@ PATH="$PATH"
 node -v
 npm -v
 sudo npm install -g near-cli
-export NEAR_ENV=testnet
-echo 'export NEAR_ENV=testnet' >> ~/.bashrc
+export NEAR_ENV=shardnet
+echo 'export NEAR_ENV=shardnet' >> ~/.bashrc
 near proposals
 
 echo  ===================near установлен ===================
@@ -44,34 +44,35 @@ sleep 20
 cd /root/
 git clone "https://github.com/near/nearcore"
 sleep 5
+commit=`curl -s https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md`
 cd nearcore
 git fetch
-git checkout 1.29.0-rc.1
+git checkout $commit
 echo  ================= Начинаю сборку ==================
 echo  =================== Start build ===================
 sleep 5
 cargo build -p neard --release --features shardnet
 cp /root/nearcore/target/release/neard /usr/bin/
-cd /root/nearcore
+cd /root/
 echo  =================== Завершена сборка ====================
 echo  =================== Build s completed ===================
-./target/release/neard --home /root/.near init --chain-id testnet --download-genesis
+neard init --chain-id shardnet --download-genesis
 ls /root/ -a 
 ls /root/.near -a 
 ls / -a 
 echo  ======================= nearcore установлен =====================
 echo  =================== install nearcore complete ===================
 sleep 10
-cd /root/.near
+cd .near
 rm config.json
-wget -O /root/.near/config.json "https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/config.json"
+wget -O /root/.near/config.json "https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json"
 sleep 5
 sudo apt-get install awscli -y
 pwd
 sleep 10
 cd /root/.near/
 rm /root/.near/genesis.json
-wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json
+wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/genesis.json
 sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
@@ -107,12 +108,11 @@ binary=neard
 mkdir /root/$binary
 mkdir /root/$binary/log
     
-# cat > /root/$binary/run <<EOF 
-# #!/bin/bash
-# exec 2>&1
-# exec $binary run
-# EOF
-./target/release/neard --home /root/.near run
+cat > /root/$binary/run <<EOF 
+#!/bin/bash
+exec 2>&1
+exec $binary run
+EOF
 
 chmod +x /root/$binary/run
 LOG=/var/log/$binary
